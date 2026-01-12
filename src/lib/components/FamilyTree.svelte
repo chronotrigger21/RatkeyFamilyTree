@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import * as d3 from 'd3';
 	import type { FamilyNode } from '$lib/data/familyData';
 
@@ -92,7 +94,11 @@
 			.data(root.descendants())
 			.join('g')
 			.attr('class', 'node')
-			.attr('transform', (d) => `translate(${d.x - nodeWidth / 2}, ${d.y - nodeHeight / 2})`);
+			.attr('transform', (d) => `translate(${d.x - nodeWidth / 2}, ${d.y - nodeHeight / 2})`)
+			.on('click', (event, d) => {
+				event.stopPropagation();
+				goto(`${base}/person/${d.data.person.id}`);
+			});
 
 		// Node background rectangle
 		nodes
