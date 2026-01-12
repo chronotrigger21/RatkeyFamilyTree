@@ -26,3 +26,38 @@ A web app for browsing the Ratkey family tree. Mobile-first, responsive design t
 - **Visualization**: D3.js - tree layout algorithms, SVG rendering
 - **Styling**: CSS (Svelte scoped styles) - mobile-first approach
 - **Gestures**: Native touch events for pinch-zoom and pan
+- **Language**: TypeScript
+
+## Deployment
+
+- **Hosting**: GitHub Pages (static site)
+- **Adapter**: @sveltejs/adapter-static - generates static HTML/CSS/JS at build time
+- **CI/CD**: GitHub Actions auto-deploys on push to `main`
+- **Live URL**: https://chronotrigger21.github.io/RatkeyFamilyTree/
+
+The app is fully static - all family tree data is bundled into the build (no server-side API).
+
+## Development Commands
+
+```bash
+npm run dev      # Start dev server at http://localhost:5173
+npm run build    # Build static site to /build
+npm run preview  # Preview production build locally
+```
+
+## Project Structure
+
+```
+src/
+  routes/           # SvelteKit pages and layouts
+    +layout.svelte  # Root layout component
+    +layout.ts      # Enables prerendering for all pages
+    +page.svelte    # Home page (main tree view)
+  lib/              # Shared components and utilities
+static/             # Static assets (images, fonts, etc.)
+```
+
+## Key Configuration
+
+- `svelte.config.js` - Static adapter config, base path set to `/RatkeyFamilyTree` for GitHub Pages
+- `.github/workflows/deploy.yml` - Auto-deployment workflow
