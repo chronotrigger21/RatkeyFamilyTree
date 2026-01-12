@@ -9,9 +9,9 @@
 	let svg: SVGSVGElement;
 
 	// Node dimensions
-	const nodeWidth = 140;
-	const nodeHeight = 80;
-	const nodeRadius = 8;
+	const nodeWidth = 100;
+	const nodeHeight = 110;
+	const nodeRadius = 10;
 
 	// Colors
 	const maleColor = '#4A90D9';
@@ -104,63 +104,56 @@
 			.attr('ry', nodeRadius)
 			.attr('fill', (d) => (d.data.person.gender === 'male' ? maleColor : femaleColor));
 
-		// Placeholder image circle
-		const imageSize = 36;
-		const imageX = 10;
-		const imageY = (nodeHeight - imageSize) / 2;
-
-		// Clip path for circular image
-		const defs = svgSelection.append('defs');
-		defs
-			.append('clipPath')
-			.attr('id', 'avatar-clip')
-			.append('circle')
-			.attr('r', imageSize / 2);
+		// Avatar positioning (centered at top)
+		const imageSize = 40;
+		const imageCenterX = nodeWidth / 2;
+		const imageCenterY = 28;
 
 		// Avatar background circle
 		nodes
 			.append('circle')
-			.attr('cx', imageX + imageSize / 2)
-			.attr('cy', imageY + imageSize / 2)
+			.attr('cx', imageCenterX)
+			.attr('cy', imageCenterY)
 			.attr('r', imageSize / 2)
 			.attr('fill', '#ddd');
 
 		// Placeholder silhouette (simple head shape)
 		nodes
 			.append('circle')
-			.attr('cx', imageX + imageSize / 2)
-			.attr('cy', imageY + imageSize / 2 - 4)
-			.attr('r', 8)
+			.attr('cx', imageCenterX)
+			.attr('cy', imageCenterY - 4)
+			.attr('r', 9)
 			.attr('fill', '#999');
 
 		nodes
 			.append('ellipse')
-			.attr('cx', imageX + imageSize / 2)
-			.attr('cy', imageY + imageSize / 2 + 12)
-			.attr('rx', 10)
-			.attr('ry', 7)
+			.attr('cx', imageCenterX)
+			.attr('cy', imageCenterY + 13)
+			.attr('rx', 11)
+			.attr('ry', 8)
 			.attr('fill', '#999');
 
-		// Name text
-		const textX = imageX + imageSize + 8;
+		// Name text (centered below avatar)
 		nodes
 			.append('text')
-			.attr('x', textX)
-			.attr('y', nodeHeight / 2 - 6)
+			.attr('x', nodeWidth / 2)
+			.attr('y', 68)
+			.attr('text-anchor', 'middle')
 			.attr('fill', 'white')
 			.attr('font-size', '11px')
 			.attr('font-weight', 'bold')
 			.text((d) => {
 				const name = d.data.person.name;
 				// Truncate long names
-				return name.length > 12 ? name.substring(0, 11) + '...' : name;
+				return name.length > 14 ? name.substring(0, 13) + '...' : name;
 			});
 
-		// Years text
+		// Years text (centered below name)
 		nodes
 			.append('text')
-			.attr('x', textX)
-			.attr('y', nodeHeight / 2 + 10)
+			.attr('x', nodeWidth / 2)
+			.attr('y', 84)
+			.attr('text-anchor', 'middle')
 			.attr('fill', 'rgba(255,255,255,0.85)')
 			.attr('font-size', '10px')
 			.text((d) => {
