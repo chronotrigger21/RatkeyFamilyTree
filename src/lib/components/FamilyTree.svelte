@@ -10,7 +10,7 @@
 
 	// Node dimensions
 	const nodeWidth = 100;
-	const nodeHeight = 110;
+	const nodeHeight = 125;
 	const nodeRadius = 10;
 
 	// Colors
@@ -132,7 +132,7 @@
 			.attr('ry', 8)
 			.attr('fill', '#999');
 
-		// Name text (centered below avatar)
+		// First name text (centered below avatar)
 		nodes
 			.append('text')
 			.attr('x', nodeWidth / 2)
@@ -142,16 +142,29 @@
 			.attr('font-size', '11px')
 			.attr('font-weight', 'bold')
 			.text((d) => {
-				const name = d.data.person.name;
-				// Truncate long names
-				return name.length > 14 ? name.substring(0, 13) + '...' : name;
+				const nameParts = d.data.person.name.split(' ');
+				return nameParts[0]; // First name
+			});
+
+		// Last name text (centered below first name)
+		nodes
+			.append('text')
+			.attr('x', nodeWidth / 2)
+			.attr('y', 82)
+			.attr('text-anchor', 'middle')
+			.attr('fill', 'white')
+			.attr('font-size', '11px')
+			.attr('font-weight', 'bold')
+			.text((d) => {
+				const nameParts = d.data.person.name.split(' ');
+				return nameParts.slice(1).join(' '); // Last name(s)
 			});
 
 		// Years text (centered below name)
 		nodes
 			.append('text')
 			.attr('x', nodeWidth / 2)
-			.attr('y', 84)
+			.attr('y', 98)
 			.attr('text-anchor', 'middle')
 			.attr('fill', 'rgba(255,255,255,0.85)')
 			.attr('font-size', '10px')
