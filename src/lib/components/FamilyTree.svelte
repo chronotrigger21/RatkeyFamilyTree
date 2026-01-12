@@ -68,11 +68,7 @@
 		svgSelection.call(zoom.transform, initialTransform);
 
 		// Draw links (connections between nodes)
-		const linkGenerator = d3
-			.linkVertical<d3.HierarchyLink<FamilyNode>, d3.HierarchyPointNode<FamilyNode>>()
-			.x((d) => d.x)
-			.y((d) => d.y + nodeHeight / 2);
-
+		// Links connect from bottom center of parent to top center of child
 		g.selectAll('.link')
 			.data(root.links())
 			.join('path')
@@ -80,12 +76,15 @@
 			.attr('fill', 'none')
 			.attr('stroke', linkColor)
 			.attr('stroke-width', 2)
-			.attr('d', (d) =>
-				linkGenerator({
-					source: { ...d.source, y: d.source.y + nodeHeight / 2 } as any,
-					target: { ...d.target, y: d.target.y - nodeHeight / 2 } as any
-				})
-			);
+			.attr('d', (d) => {
+				const sourceX = d.source.x;
+				const sourceY = d.source.y + nodeHeight / 2; // bottom of parent
+				const targetX = d.target.x;
+				const targetY = d.target.y - nodeHeight / 2; // top of child
+				// Create a curved path
+				const midY = (sourceY + targetY) / 2;
+				return `M ${sourceX} ${sourceY} C ${sourceX} ${midY}, ${targetX} ${midY}, ${targetX} ${targetY}`;
+			});
 
 		// Draw nodes
 		const nodes = g
